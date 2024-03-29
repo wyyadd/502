@@ -20,10 +20,8 @@ for line in sys.stdin:
 
     if current_edge == edge:
         value = structural_similarity(set(current_adj_list), set(adj_list))
-        if value > 0.3:
+        if value > 0.2:
             print(edge, "\t", value)
     else:
         current_edge = edge
         current_adj_list = adj_list
-
-# cat adjacency_list.txt | python3 pcss_mapper.py | sort | python3 pcss_reducer.py > output.txt
