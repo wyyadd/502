@@ -35,6 +35,7 @@ for line in sys.stdin:
             update_vertex()
         current_vertex = vertex
         smallest_label = None
+        current_struct_info = None
 
     if type(value) is list:
         # If the value is the structure information, Store the structure information temporarily;
@@ -48,5 +49,5 @@ if current_vertex:
     update_vertex()
 
 # write label_flag, to determine whether there is no label updated in one iteration.
-with open("lpcc_flag.txt", "w") as f:
+with open("output/lpcc_flag.txt", "w") as f:
     f.write(str(label_flag))

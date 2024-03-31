@@ -1,8 +1,10 @@
 #!/usr/bin/python3
+import os
 import sys
 
 current_edge = None
 current_adj_list = None
+threshold = float(os.environ.get('SIMILARITY_THRESHOLD', '0.3'))
 
 
 def structural_similarity(adj_set1, adj_set2):
@@ -20,7 +22,7 @@ for line in sys.stdin:
 
     if current_edge == edge:
         value = structural_similarity(set(current_adj_list), set(adj_list))
-        if value > 0.2:
+        if value > threshold:
             print(edge, "\t", value)
     else:
         current_edge = edge

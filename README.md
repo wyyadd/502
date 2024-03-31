@@ -1,19 +1,20 @@
 # Generate output in bash
 
-``` bash
-cat adjacency_list.txt | python3 pcss_mapper.py | sort | python3 pcss_reducer.py > pcss_output.txt
-```
-
-``` bash
-cat lpcc_input.txt | python3 lpcc_mapper.py | sort | python3 lpcc_reducer.py > output/lpcc_output_0.txt
-```
-
 ```bash
-echo "Round: 1"
-cat lpcc_input.txt | python3 lpcc_mapper.py | sort | python3 lpcc_reducer.py > output/lpcc_output_1.txt
+export SIMILARITY_THRESHOLD=0.3
+export DATA_SIZE=5
+
+python3 generate_adjacency_list.py
+
+cat output/adjacency_list.txt | python3 pcss_mapper.py | sort | python3 pcss_reducer.py > output/pcss_output.txt
+
+python3 generate_lpcc_input.py
+
+echo "Round: 1" 
+cat output/lpcc_input.txt | python3 lpcc_mapper.py | sort | python3 lpcc_reducer.py > output/lpcc_output_1.txt
 
 round=1
-while [ $(cat lpcc_flag.txt) -ne 0 ]
+while [ $(cat output/lpcc_flag.txt) -ne 0 ]
 do
     ((round++))
     echo "Round: $round"
@@ -23,6 +24,9 @@ do
     
     cat "$input_file" | python3 lpcc_mapper.py | sort | python3 lpcc_reducer.py > "$output_file"
 done
+mv "output/lpcc_output_$round.txt" "output/lpcc_output_final.txt"
+
+/usr/bin/python3 benchmark.py
 ```
 
 # Generate output in Hadoop
